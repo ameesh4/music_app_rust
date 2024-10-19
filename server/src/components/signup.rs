@@ -12,9 +12,7 @@ use mysql::{
     prelude::*,
     Pool,
 };
-use crate::{
-    User,
-};
+use crate::User;
 use std::sync::Arc;
 use bcrypt::{hash, DEFAULT_COST};
 

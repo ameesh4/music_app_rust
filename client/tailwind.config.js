@@ -12,6 +12,10 @@ export default {
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
   		},
+      backgroundImage:{
+        "custom-image": "url('./src/assets/bg.jpg')",
+        "custom-image-2": "url('./src/assets/bg-2.jpg')"
+      },
   		colors: {}
   	}
   },
