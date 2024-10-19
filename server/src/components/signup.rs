@@ -19,7 +19,7 @@ use std::sync::Arc;
 use bcrypt::{hash, DEFAULT_COST};
 
 
-pub async fn signup_handler(Extension(pool): Extension<Arc<Pool>> ,Json(user): Json<User>) -> impl IntoResponse {
+pub async fn signup_handler(Extension(pool): Extension<Arc<Pool>> ,Json(mut user): Json<User>) -> impl IntoResponse {
     if user.name.is_empty() || user.email.is_empty() || user.password.is_empty() {
         let response = json!({
             "message": "Name, email and password are required"
@@ -31,11 +31,11 @@ pub async fn signup_handler(Extension(pool): Extension<Arc<Pool>> ,Json(user): J
     let mut conn = pool.get_conn().unwrap();
     let insert_user_query = r"INSERT INTO user (name, age, email, password) VALUES (:name, :age, :email, :password)";
 
-    match hash(&user.password, DEFAULT_COST){
-        OK(hashed_pw) => user.password = hashed_pw,
-        Err(e) => return (StatusCode=Error, json!({
-            "Error": format!(e)
-        }))
+    match hash_password(&user.password){
+        Ok(hashed_password) => user.password = hashed_password,
+        Err(_) => return (StatusCode::INTERNAL_SERVER_ERROR, Json(json!({
+            "Error": "Error hashing"
+        })))
     }
 
     if let Err(e) = conn.exec_drop(
@@ -44,7 +44,7 @@ pub async fn signup_handler(Extension(pool): Extension<Arc<Pool>> ,Json(user): J
             "name" => &user.name,
             "age" => user.age,
             "email" => &user.email,
-            "password" => &hashed_pw,
+            "password" => user.password,
         }
     ) {
         let response = json!({
