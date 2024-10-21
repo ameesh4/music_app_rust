@@ -18,7 +18,7 @@ const schema = z.object({
     password: z.string().min(8, "Password must be atleast 8 characters long"),
 });
 
-export default function Signin(){
+export default function Signup(){
     const methods = useForm<z.infer<typeof schema>>({
         resolver: zodResolver(schema),
         defaultValues: {

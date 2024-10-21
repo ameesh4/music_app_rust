@@ -10,6 +10,7 @@ import {
     FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import axios from "axios";
 
 const schema = z.object({
     email: z.string().email(),
@@ -25,10 +26,12 @@ export default function Signin(){
         }
     });
 
-    const {register, control, handleSubmit } = methods;
+    const {register, control, handleSubmit, formState: {errors} } = methods;
 
     const onSubmit: SubmitHandler<z.infer<typeof schema>> = (data) => {
-        console.log(data);
+        axios.post("http://127.0.0.1:3000", data).then((res)=>{
+            console.log(res);
+        })
     }
 
     
@@ -51,7 +54,7 @@ export default function Signin(){
                                             Email
                                         </FormLabel>
                                         <Input id="email" {...register("email")} />
-                                        
+                                        {errors.email && <FormMessage>{errors.email.message}</FormMessage>}
                                     </FormItem>
                                 )}
                                 />
@@ -65,6 +68,7 @@ export default function Signin(){
                                             Password
                                         </FormLabel>
                                         <Input id="password" {...register("password")} type="password" />
+                                        {errors.password && <FormMessage>{errors.password.message}</FormMessage>}
                                     </FormItem>
                                 )}
                                 />
