@@ -1,11 +1,8 @@
+import Layout from "@/layout";
 
 
 export default function Main(){
     return (
-        <>
-        <div className='h-screen w-screen bg-gray-400'>
-            
-        </div>
-        </>
+        <Layout children />
     )
 }
