@@ -10,6 +10,9 @@ import {
     FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import axios from "axios";
+import { toast } from "@/hooks/use-toast";
+import { ToastAction } from "@radix-ui/react-toast";
 
 const schema = z.object({
     name: z.string().min(4, "Name is required"),
@@ -29,8 +32,39 @@ export default function Signup(){
 
     const {register, control, handleSubmit, formState: {errors} } = methods;
 
+    const handleClick = (e: any) => {
+        e.preventDefault();
+        window.location.href = "/signin";
+    }
+
     const onSubmit: SubmitHandler<z.infer<typeof schema>> = (data) => {
-        console.log(data);
+        let request = {
+            name: data.name,
+            age: data.age,
+            email: data.email,
+            password: data.password,
+        }
+        
+        axios.post("http://127.0.0.1:8000/api/signup", request).then((res)=>{
+            toast ({
+                title: "Success",
+                description: res.data.message,
+                action: <ToastAction onClick={handleClick} altText={"continue"}>continue</ToastAction>,
+                variant : "success"
+            })
+        }).catch((err)=>{
+            let error = err.response.data.message;
+
+            if (error.includes("Duplicate entry")){
+                error = "Email already exists";
+            }
+
+            toast ({
+                title: "Error",
+                description: error,
+                variant: "destructive"
+            })
+        })
     }
 
     
