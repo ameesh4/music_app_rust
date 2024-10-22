@@ -1,6 +1,6 @@
 use mysql::{OptsBuilder, Pool};
 use dotenv::dotenv;
-use musicapp::router::signin;
+use musicapp::router::{signin, signup};
 use std::env;
 use std::sync::Arc;
 use rocket::http::Method;
@@ -10,7 +10,7 @@ use rocket_cors::{Cors, CorsOptions, AllOrSome::All};
 
 #[launch]
 fn rocket() -> _ {
-    rocket::build().mount("/", routes![signin])
+    rocket::build().mount("/", routes![signin, signup])
         .manage(Arc::new(setup_db_pool()))
         .attach(cors_setup())
 }
