@@ -15,3 +15,12 @@ pub struct Signin {
     pub email: String,
     pub password: String,
 }
+
+#[derive(Deserialize)]
+pub struct Music {
+    pub name: String,
+    pub artist: String,
+    pub genre: String,
+    pub year: u16,
+    pub id: u32,
+}

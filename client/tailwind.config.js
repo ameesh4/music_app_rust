@@ -6,7 +6,15 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+	fontFamily: {
+		"montserrat": ["Montserrat", "sans-serif"],
+		"poppins": ["Poppins", "sans-serif"],
+	},
   	extend: {
+		animation: {
+			marquee: 'marquee 25s linear infinite',
+			marquee2: 'marquee2 25s linear infinite',
+		},
   		borderRadius: {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',

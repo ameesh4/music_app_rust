@@ -54,7 +54,7 @@ export default function Signin(){
 
     
     return (
-        <div className="flex">
+        <div className="flex ">
             <div className="flex items-center w-2/6 h-screen bg-gray-100 p-12">
                 <div className="w-full">
                     <div className="w-full">
@@ -68,7 +68,7 @@ export default function Signin(){
                                 control={control}
                                 render = {() => (
                                     <FormItem>
-                                        <FormLabel>
+                                        <FormLabel className="font-bold">
                                             Email
                                         </FormLabel>
                                         <Input id="email" {...register("email")} />
