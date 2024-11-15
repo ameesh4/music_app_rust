@@ -1,5 +1,6 @@
 pub mod components;
 use rocket::serde::Deserialize;
+use serde::Serialize;
 pub mod router;
 
 #[derive(Deserialize)]
@@ -17,10 +18,15 @@ pub struct Signin {
 }
 
 #[derive(Deserialize)]
-pub struct Music {
-    pub name: String,
-    pub artist: String,
-    pub genre: String,
-    pub year: u16,
-    pub id: u32,
+pub struct Query {
+    pub query: String,
+}
+
+#[derive(Deserialize, Serialize)]
+pub struct VideoResult {
+    pub id: String,
+    pub title: String,
+    pub thumbnail: String,
+    pub duration: u64,
+    pub channel: String,
 }

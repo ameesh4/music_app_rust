@@ -3,7 +3,7 @@ import Signin from '@/pages/Signin';
 import Signup from './pages/Signup';
 import Layout from './layout';
 import Home from './pages/Home';
-import Search from './pages/Search';
+import SearchHandler from './pages/Search';
 
 export default function App(){
   return (
@@ -11,7 +11,7 @@ export default function App(){
       <Routes>
         <Route path="/" element={<Layout/>}>
           <Route path='home' element={<Home />} />
-          <Route path='search' element={<Search />} />
+          <Route path='search' element={<SearchHandler />} />
         </Route>
         <Route path="/signin" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
