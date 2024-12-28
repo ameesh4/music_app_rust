@@ -4,10 +4,12 @@ import { SearchProps, SearchRequest, SearchResponse } from "@/model";
 import axios from "axios";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { CirclePlay, Search } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
+import { useSound } from "@/hooks/useSound";
 
 export default function SearchHandler() {
     const [searchResults, setSearchResults] = useState<SearchProps[]>([]);
-
+    const { playUrl, play, pause } = useSound();
     // useEffect(() => {
     //     const delayDebounceFn = setTimeout(()=> {
     //         try{
@@ -46,7 +48,11 @@ export default function SearchHandler() {
                     const data: SearchResponse = res.data;
                     setSearchResults(data.results);
                 }).catch((err)=>{
-                    console.log(err);
+                    toast ({
+                        title: "Error",
+                        description: err.response.data.message,
+                        variant: "destructive"
+                    })
                 })
             }
         }
@@ -56,7 +62,16 @@ export default function SearchHandler() {
     }
 
     const handlePlay = (id: String) => {
-        console.log(id);
+        axios.post("http://localhost:8000/api/stream", id, {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }).then((res)=>{
+            const data = res.data;
+            playUrl(data.url);
+        }).catch((err)=>{
+            console.log(err);
+        })
     }
 
     return (
